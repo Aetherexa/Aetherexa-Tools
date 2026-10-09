@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Catalog from '../components/Catalog';
+---
+<Base>
+  <section class="hero content">
+    <div class="hero-content">
+      <div class="eyebrow"><span class="pulse-dot"></span> YOUR EVERYDAY DIGITAL WORKBENCH <span class="eyebrow-line"></span> 100% BROWSER-BASED</div>
+      <h1>Small tasks.<br /><span class="grad-text">Zero friction.</span></h1>
+      <p class="hero-sub">Five useful tools for the work you do every day. No accounts. No uploads. No nonsense. Just open a tool and get it done.</p>
+      <div class="hero-actions"><a href="#tools" class="btn primary big">Explore all tools <span aria-hidden="true">↗</span></a><a href="#why" class="btn ghost big">How it works <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-stats"><span><b>05</b> useful tools</span><span class="stat-divider"></span><span><b>0</b> sign-ups</span><span class="stat-divider"></span><span><b>100%</b> on-device</span></div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="orbit orbit-out"></div><div class="orbit orbit-in"></div><div class="orbital-text orbital-1">CSV</div><div class="orbital-text orbital-2">IMG</div><div class="orbital-text orbital-3">↗</div>
+      <div class="hero-visual-card"><div class="visual-card-bar"><span></span><span></span><span></span><i>PRIVATE WORKSPACE</i></div><div class="visual-card-inner"><div class="code-line"><small>01</small><span class="code-purple">const</span> workflow <span class="code-purple">=</span> <span class="code-green">'effortless'</span>;</div><div class="code-line"><small>02</small><span class="code-purple">const</span> uploads <span class="code-purple">=</span> <span class="code-orange">0</span>;</div><div class="code-line"><small>03</small><span class="code-purple">const</span> timeSaved <span class="code-purple">=</span> <span class="code-green">'a lot'</span>;</div><div class="code-line"><small>04</small><span class="code-yellow">run</span>(<span class="code-green">'aetherexa'</span>); <span class="blinking-cursor">▍</span></div></div><div class="visual-result"><span>✓</span> All systems ready</div></div>
+      <div class="floating-chip chip-a">✦ No sign-up</div><div class="floating-chip chip-b">⌁ Privacy-first</div>
+    </div>
+  </section>
+  <section class="tools-section" id="tools">
+    <div class="content">
+      <div class="section-eyebrow">THE TOOLBOX <span class="small-line"></span> EVERYTHING IN ONE PLACE</div>
+      <div class="section-heading"><div><h2>Find your next <em>shortcut.</em></h2><p>Purpose-built utilities that turn the tedious into the trivial.</p></div><span class="tool-count">05 TOOLS AVAILABLE</span></div>
+      <Catalog client:load />
+    </div>
+  </section>
+  <section class="why-section content" id="why">
+    <div class="section-eyebrow">BUILT DIFFERENT <span class="small-line"></span> OUR PHILOSOPHY</div>
+    <h2>We believe useful<br />should feel <em>simple.</em></h2>
+    <div class="why-grid">
+      <div class="why-item"><span class="why-icon">↗</span><h3>Open. Use. Done.</h3><p>No account to create. No verification emails. No hoops between you and getting work done.</p></div>
+      <div class="why-item"><span class="why-icon">◈</span><h3>Your data stays yours.</h3><p>Your orders, spreadsheets and images are processed locally in your browser, never uploaded.</p></div>
+      <div class="why-item"><span class="why-icon">⌘</span><h3>Made for real life.</h3><p>Tools shaped around practical needs: shopkeepers, job applicants and spreadsheet warriors.</p></div>
+    </div>
+  </section>
+</Base>

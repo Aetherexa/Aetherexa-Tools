@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string; keywords?: string[]; }
+const {title = 'Aetherexa Tools — Free, private online utilities', description = 'Fast, free, browser-based tools for files, photos, business and everyday work. No sign-up or file uploads required.', keywords=[]} = Astro.props;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL as string | undefined;
+const canonical = siteUrl ? new URL(Astro.url.pathname, siteUrl).toString() : null;
+const socialImage = siteUrl ? new URL('/social-card.png', siteUrl).toString() : null;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="description" content={description} />
+    {!canonical && <meta name="robots" content="noindex, nofollow" />}
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aetherexa Tools" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="main-header">
+      <div class="content header-inner">
+        <a href="/" class="brand" aria-label="Aetherexa Tools home">
+          <span class="brand-symbol">A<span class="brand-dot"></span></span>
+          <span>Aetherexa <b>Tools</b></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="/#tools">Explore tools</a>
+          <a href="/#why">Why Aetherexa?</a>
+          <a class="header-pill" href="https://github.com/Aetherexa/Aetherexa-Tools" target="_blank" rel="noopener noreferrer">Made by Aetherexa ↗</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="footer">
+      <div class="content footer-inner">
+        <div><a href="/" class="footer-brand">Aetherexa Tools</a><p>Little tools. Big everyday wins.</p></div>
+        <div class="footer-copy">Built for humans and their work. Files stay on your device.<div class="footer-line"><a href="/privacy/">Privacy policy</a> · © {new Date().getFullYear()} Aetherexa</div></div>
+      </div>
+    </footer>
+  </body>
+</html>

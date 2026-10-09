@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { tools, getTool } from '../../lib/registry';
+import { guides } from '../../lib/tool-guides';
+import OrdersTool from '../../components/OrdersTool';
+import DatesTool from '../../components/DatesTool';
+import PriceTool from '../../components/PriceTool';
+import ImageTool from '../../components/ImageTool';
+export function getStaticPaths() { return tools.map(tool => ({ params: {slug: tool.slug} })); }
+const slug = Astro.params.slug ?? '';
+const tool = getTool(slug)!;
+const guide = guides[slug];
+const isOrders = slug === 'whatsapp-order-to-csv';
+const isDates = slug === 'csv-date-format-fixer';
+const isPrices = slug === 'daily-price-list-maker';
+const isPhoto = slug === 'exam-photo-resizer';
+---
+<Base title={`${tool.name} — Free Online Tool | Aetherexa`} description={`${tool.description} Free, private and no signup required. Works in your browser.`} keywords={tool.keywords}>
+  <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebApplication",name:tool.name,description:tool.description,applicationCategory:"UtilitiesApplication",operatingSystem:"Any modern browser",offers:{"@type":"Offer",price:"0",priceCurrency:"INR"}}).replaceAll('<','\\u003c')} />
+  <div class="content tool-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">All tools</a><span>›</span><span>{tool.category}</span><span>›</span><span aria-current="page">{tool.name}</span></nav>
+    <div class="tool-heading"><div class="section-eyebrow">AETHEREXA TOOLKIT <span class="small-line"></span> {tool.category.toUpperCase()}</div><h1>{tool.name}<span class="heading-dot">.</span></h1><p>{tool.description}</p><div class="tool-flags"><span>◇ 100% private</span><span>✓ No sign-up</span><span>⚡ Instant results</span></div></div>
+    <div class="tool-app">
+      {isOrders && <OrdersTool client:load />}
+      {isDates && <DatesTool client:load />}
+      {isPrices && <PriceTool client:load />}
+      {(isPhoto || slug === 'signature-resize-10kb') && <ImageTool client:load mode={isPhoto ? 'photo' : 'signature'} />}
+    </div>
+    <div class="tool-guide"><div><div class="section-eyebrow">THE GUIDE</div><h2>How this tool works</h2><p>{isOrders ? 'Paste order messages copied from WhatsApp. We identify simple quantity-plus-product lines and build a structured CSV with item, quantity, unit and source text. Review any unrecognized lines before you download. Your messages never leave your device.' : isDates ? 'Upload or paste a CSV, select the date column, and use safe automatic detection or choose the known source format. We convert recognized dates and leave invalid or ambiguous dates unchanged so you can review them. Download the corrected CSV when ready.' : isPrices ? 'Enter one item per line in item,price,unit order. Customize your business name and today’s date. Preview a clear price board, export your list as CSV, or use your browser print dialog to save a PDF.' : 'Choose an image, enter the required pixel dimensions and a target file size. The tool resizes and compresses it locally, then reports whether it actually meets the size limit. Confirm the exact requirements on your application form before uploading the result.'}</p></div><div class="guide-aside"><span>◎</span><h3>Private by design</h3><p>Your content is processed inside this tab. There is no upload endpoint or account required.</p></div></div>
+    <section class="tool-help" aria-label="Instructions and common questions">
+      <div class="section-eyebrow">STEP BY STEP</div>
+      <h2>How to use {tool.name}</h2>
+      <ol>{guide.steps.map(step => <li>{step}</li>)}</ol>
+      <h2>Frequently asked questions</h2>
+      <div class="tool-faqs">{guide.faqs.map(faq => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div>
+    </section>
+    <div class="back-tools"><a href="/#tools">← Browse other tools</a></div>
+  </div>
+</Base>

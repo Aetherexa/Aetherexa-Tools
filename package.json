@@ -1,0 +1,40 @@
+{
+  "name": "aetherexa-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check && tsc --noEmit",
+    "test": "vitest run",
+    "verify:build": "node scripts/verify-built.mjs",
+    "verify:release": "node scripts/verify-release.mjs",
+    "test:e2e": "playwright test",
+    "test:offline": "node scripts/offline-smoke.mjs",
+    "test:coverage": "vitest run --coverage",
+    "test:syntax": "node scripts/syntax-audit.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.3.0",
+    "astro": "^5.14.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.4",
+    "@playwright/test": "^1.55.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@axe-core/playwright": "^4.10.2"
+  },
+  "engines": {
+    "node": ">=20.11"
+  }
+}
