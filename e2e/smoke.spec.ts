@@ -81,3 +81,50 @@ test('all pages display Aetherexa theme instead of bare unstyled HTML', async ({
     expect(parseFloat(styles.headerHeight)).toBeGreaterThan(55);
   }
 });
+
+
+test('imported WhatsApp chat retains customer association in the CSV preview', async ({page}) => {
+  await page.goto('/tools/whatsapp-order-to-csv/');
+  await page.getByLabel('Import exported chat (.txt)').setInputFiles({
+    name: 'whatsapp-chat.txt', mimeType: 'text/plain',
+    buffer: Buffer.from('[16/10/2026, 9:00 PM] Anita: 2 kg Rice\n3x Soap\n16/10/2026, 9:03 PM - Ravi: Sugar 1 kg'),
+  });
+  await expect(page.locator('.data-table tbody tr')).toHaveCount(3);
+  await expect(page.locator('.data-table tbody tr').last()).toContainText('Ravi');
+  const download = page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download CSV'}).click();
+  expect((await download).suggestedFilename()).toBe('aetherexa-whatsapp-orders.csv');
+});
+
+test('TSV upload autodetects separator and exports a TSV file', async ({page}) => {
+  await page.goto('/tools/csv-date-format-fixer/');
+  await page.getByLabel('Upload CSV or TSV').setInputFiles({
+    name:'dates.tsv',mimeType:'text/tab-separated-values',
+    buffer:Buffer.from('name\tdate\nAsha\t31/12/2025'),
+  });
+  await expect(page.getByLabel('CSV delimiter')).toHaveValue('\t');
+  await expect(page.locator('.data-table tbody tr')).toContainText(['Asha2025-12-31']);
+  const download = page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download corrected CSV'}).click();
+  expect((await download).suggestedFilename()).toBe('aetherexa-fixed-dates.tsv');
+});
+
+test('price maker imports its own exported CSV without treating the header as invalid', async ({page}) => {
+  await page.goto('/tools/daily-price-list-maker/');
+  await page.getByLabel('Import a CSV or text price list').setInputFiles({
+    name:'prices.csv',mimeType:'text/csv',
+    buffer:Buffer.from('item,price,unit\nRice,65,kg\nSoap,35,each'),
+  });
+  await expect(page.locator('.price-sheet tbody tr')).toHaveCount(2);
+  await expect(page.getByText('line(s) could not be parsed')).toHaveCount(0);
+});
+
+test('image tool shows unsupported file errors instead of silently clearing them', async ({page}) => {
+  await page.goto('/tools/signature-resize-10kb/');
+  await page.getByLabel('Choose an image').setInputFiles({
+    name:'unsafe.svg',mimeType:'image/svg+xml',
+    buffer:Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'),
+  });
+  await expect(page.getByRole('alert')).toContainText('SVG is not supported');
+  await expect(page.getByRole('button',{name:/Resize and compress/})).toBeDisabled();
+});

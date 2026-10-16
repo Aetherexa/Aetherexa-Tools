@@ -12,6 +12,8 @@ export function parsePriceList(text: string): PriceParseResult {
   catch { return { items, skipped: text.trim() ? [text] : [], csv: rowsToCSV([], ['item','price','unit']) }; }
   for (const fields of rows) {
     if (fields.length === 1 && !fields[0].trim()) continue;
+    // Exported price-list CSV is importable without treating headings as invalid data.
+    if (fields.length === 3 && fields[0].trim().toLowerCase() === 'item' && fields[1].trim().toLowerCase() === 'price' && fields[2].trim().toLowerCase() === 'unit') continue;
     if (fields.length < 2 || fields.length > 3) { skipped.push(fields.join(',')); continue; }
     const item = fields[0].trim();
     const priceStr = fields[1].trim().replace(/^[₹$]\s*/, '');
