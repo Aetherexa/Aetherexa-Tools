@@ -3,9 +3,9 @@ export interface ToolGuide { steps: string[]; faqs: {question: string; answer: s
 export const guides: Record<string, ToolGuide> = {
   'whatsapp-order-to-csv': {
     steps: [
-      'Copy the order messages you want to process from an exported WhatsApp chat or conversation.',
-      'Paste the messages into the input box. Use formats such as “2 kg rice”, “rice 2 kg”, or “3x soap”.',
-      'Check the recognized items and review all skipped messages before exporting the CSV file.',
+      'Import an exported WhatsApp .txt chat, or copy the order messages you want to process.',
+      'Imported chat exports retain sender and timestamp details. Alternatively, paste messages using formats such as “2 kg rice”, “rice 2 kg”, or “3x soap”.',
+      'Check recognized items, sender details and skipped messages before exporting the CSV file.',
     ],
     faqs: [
       {question:'Can I export WhatsApp orders to Excel?',answer:'Yes. Download the generated CSV and open it in Microsoft Excel or Google Sheets. This tool does not connect to your WhatsApp account.'},
@@ -28,8 +28,8 @@ export const guides: Record<string, ToolGuide> = {
   },
   'daily-price-list-maker': {
     steps: [
-      'Enter your shop name and the date you want displayed on the price list.',
-      'Paste products one per CSV row using the item, price, unit convention, such as “Rice,65,kg”.',
+      'Enter your shop name and date, then optionally import an existing CSV or text price list.',
+      'Paste or import products one per CSV row using the item, price, unit convention, such as “Rice,65,kg”.',
       'Review the live price board and any rows that could not be parsed.',
       'Choose Print / Save PDF for a shareable board, or Export CSV for a spreadsheet copy.',
     ],
