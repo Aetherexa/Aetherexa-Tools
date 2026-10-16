@@ -291,3 +291,7 @@ a { transition: color .15s ease; }
   .workbench-visual { display: none !important; }
   .main-header, .footer, .tool-guide, .tool-help, .back-tools { display: none !important; }
 }
+
+/* Accessible contrast for the printable light-surface price sheet. */
+.price-sheet-header span { color: #4c6570; }
+.price-sheet-footer { color: #536670; }
