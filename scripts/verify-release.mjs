@@ -8,4 +8,7 @@ if (url.protocol !== 'https:' || url.username || url.password || url.search || u
     ['.example', '.invalid', '.test', '.localhost'].some(suffix => url.hostname.endsWith(suffix))) {
   throw new Error('Set PUBLIC_SITE_URL to your real https:// origin, without a path, query, hash or credentials.');
 }
+if (process.env.PUBLIC_BASE_PATH && !/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(process.env.PUBLIC_BASE_PATH)) {
+  throw new Error('PUBLIC_BASE_PATH must be / or a slash-delimited repository path, e.g. /Aetherexa-Tools/.');
+}
 console.log('Production site origin validated:', url.origin);

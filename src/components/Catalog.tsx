@@ -16,7 +16,7 @@ export default function Catalog() {
 }
 function ToolCard({ tool }: {tool: ToolDefinition}) {
   const Icon = icons[tool.icon];
-  return <a className={`tool-card tool-${tool.category.toLowerCase()}`} href={`/tools/${tool.slug}/`}>
+  return <a className={`tool-card tool-${tool.category.toLowerCase()}`} href={`${import.meta.env.BASE_URL}tools/${tool.slug}/`}>
     <div className="tool-card-top"><span className="tool-icon"><Icon size={23} strokeWidth={1.8}/></span><ArrowUpRight className="card-arrow" size={19} /></div>
     <div className="tool-info"><span className="tool-category">{tool.category} {tool.tag ? <span className="tool-tag">· {tool.tag}</span> : null}</span><h3>{tool.name}</h3><p>{tool.description}</p></div><div className="card-action">OPEN TOOL <span>→</span></div>
   </a>;

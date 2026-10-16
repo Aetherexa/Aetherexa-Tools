@@ -1,13 +1,18 @@
 import { readFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
+const basePath = (process.env.PUBLIC_BASE_PATH || '/').replace(/\/?$/, '/');
 const routes = ['', 'privacy', 'tools/whatsapp-order-to-csv', 'tools/csv-date-format-fixer', 'tools/daily-price-list-maker', 'tools/exam-photo-resizer', 'tools/signature-resize-10kb'];
 for (const route of routes) {
   const file = join('dist', route, 'index.html');
   const html = await readFile(file, 'utf8');
+  // The shared theme must be present even when external asset paths are unavailable.
+  if (!html.includes('--ax-bg:') || !html.includes('.tool-card') || !html.includes('color-scheme: dark')) {
+    throw new Error(`Missing embedded Aetherexa design-system CSS in ${file}`);
+  }
   if (!/<meta\s+name="description"/.test(html) || !/<h1\b/.test(html)) throw new Error(`Missing semantic SEO HTML: ${file}`);
   if (/<script\s+src="https?:\/\//.test(html)) throw new Error(`Unexpected third-party script: ${file}`);
   if (process.env.PUBLIC_SITE_URL) {
-    const canonical = new URL(`/${route ? route + '/' : ''}`, process.env.PUBLIC_SITE_URL).toString();
+    const canonical = new URL(`${basePath}${route ? route + '/' : ''}`, process.env.PUBLIC_SITE_URL).toString();
     if (!html.includes(`rel="canonical" href="${canonical}"`)) throw new Error(`Canonical mismatch: ${file}`);
   } else if (!html.includes('content="noindex, nofollow"')) {
     throw new Error(`Unconfigured site must stay non-indexable: ${file}`);

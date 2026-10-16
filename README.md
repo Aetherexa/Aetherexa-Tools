@@ -26,6 +26,14 @@ npm run verify:build
 npm run test:e2e
 ```
 
+## UI design system and CSS reliability
+
+The website uses the shared `src/styles/aetherexa-ui.css` design tokens (surface hierarchy, border, radius, spacing, accent, controls and focus), aligned to Aetherexa's VS Code extension workbench language. Styles are embedded by `src/layouts/Base.astro` into every prerendered HTML page to prevent broken external `/_astro/*.css` links from turning the app into plain text.
+
+**Preview with a server:** `npm run dev` or `npm run build && npm run preview`. Do not double-click `dist/index.html`: browser module imports and client-side React islands may be blocked with `file://`.
+
+For GitHub Pages project hosting use both `PUBLIC_SITE_URL=https://aetherexa.github.io` and `PUBLIC_BASE_PATH=/Aetherexa-Tools/`. Root hosts (Cloudflare Pages or a custom domain) should leave `PUBLIC_BASE_PATH` unset. Run `npm run verify:build` and test all five pages after deploying. All site links, React catalog links and site maps honour the configured base.
+
 ## Static deployment
 
 Set `PUBLIC_SITE_URL=https://your-domain.example` and run `npm run build`. Deploy `dist/` to Cloudflare Pages (build command: `npm run build`, output directory: `dist`) or any static host. Configure the production domain **before publishing** so canonical and sitemap references are correct. Never ship `https://example.com` into a public release. GitHub Actions runs two-Node-version type checks, baseline coverage thresholds, static build checks, Chromium smoke tests and axe accessibility audits on PRs. Optional Cloudflare Pages deployment and SonarQube Cloud are available after secrets and variables are configured. See `SPRINT-STATUS.md` for setup and unverified gates.

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+const homeLink = import.meta.env.BASE_URL;
 ---
 <Base title="Privacy Policy | Aetherexa Tools" description="How Aetherexa Tools handles files and data.">
   <section class="content" style="padding-top:70px;padding-bottom:100px;max-width:900px">
@@ -10,6 +11,6 @@ import Base from '../layouts/Base.astro';
     <h2>Downloads and previews</h2><p style="color:#9db0c9;line-height:1.8">Files you create are downloaded directly by your browser. Preview data exists in page memory and can be cleared by reloading or closing the tab. Browser print functions are handled by your device and browser settings.</p>
     <h2>Third-party links</h2><p style="color:#9db0c9;line-height:1.8">External websites linked from our pages operate under their own privacy practices. We do not control their data collection.</p>
     <h2>Changes</h2><p style="color:#9db0c9;line-height:1.8">If analytics, ads, or remote integrations are introduced in later releases, this policy must be updated before launch and suitable disclosures and consent flows implemented where required.</p>
-    <p style="margin-top:35px"><a href="/" class="btn ghost">← Back to tools</a></p>
+    <p style="margin-top:35px"><a href={homeLink} class="btn ghost">← Back to tools</a></p>
   </section>
 </Base>
