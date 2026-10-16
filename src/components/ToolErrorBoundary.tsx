@@ -8,7 +8,7 @@ export default class ToolErrorBoundary extends Component<Props, State> {
   static getDerivedStateFromError(): State { return {failed:true}; }
   componentDidCatch(_error: Error, _info: ErrorInfo): void { /* Do not log user inputs. */ }
   render() {
-    if (this.state.failed) return <section className="panel" role="alert"><h2>Something went wrong in this tool.</h2><p className="muted">Your data was not sent to a server. Reload to restart the tool, or return to the tool catalog.</p><div className="action-row"><button type="button" className="btn primary" onClick={()=>window.location.reload()}>Reload tool</button><a href="/#tools" className="btn ghost">Browse tools</a></div></section>;
+    if (this.state.failed) return <section className="panel" role="alert"><h2>Something went wrong in this tool.</h2><p className="muted">Your data was not sent to a server. Reload to restart the tool, or return to the tool catalog.</p><div className="action-row"><button type="button" className="btn primary" onClick={()=>window.location.reload()}>Reload tool</button><a href={`${import.meta.env.BASE_URL}#tools`} className="btn ghost">Browse tools</a></div></section>;
     return this.props.children;
   }
 }

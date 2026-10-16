@@ -5,5 +5,7 @@ export default defineConfig({
   integrations: [react()],
   output: 'static',
   site: process.env.PUBLIC_SITE_URL || 'https://aetherexa.invalid',
+  // Required only on subpath hosting (for example GitHub Pages project sites).
+  base: process.env.PUBLIC_BASE_PATH || '/',
   build: { format: 'directory' },
 });

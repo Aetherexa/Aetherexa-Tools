@@ -10,6 +10,9 @@ export function getStaticPaths() { return tools.map(tool => ({ params: {slug: to
 const slug = Astro.params.slug ?? '';
 const tool = getTool(slug)!;
 const guide = guides[slug];
+const basePath = import.meta.env.BASE_URL;
+const catalogLink = `${basePath}#tools`;
+const homeLink = basePath;
 const isOrders = slug === 'whatsapp-order-to-csv';
 const isDates = slug === 'csv-date-format-fixer';
 const isPrices = slug === 'daily-price-list-maker';
@@ -18,7 +21,7 @@ const isPhoto = slug === 'exam-photo-resizer';
 <Base title={`${tool.name} — Free Online Tool | Aetherexa`} description={`${tool.description} Free, private and no signup required. Works in your browser.`} keywords={tool.keywords}>
   <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebApplication",name:tool.name,description:tool.description,applicationCategory:"UtilitiesApplication",operatingSystem:"Any modern browser",offers:{"@type":"Offer",price:"0",priceCurrency:"INR"}}).replaceAll('<','\\u003c')} />
   <div class="content tool-page">
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">All tools</a><span>›</span><span>{tool.category}</span><span>›</span><span aria-current="page">{tool.name}</span></nav>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={homeLink}>All tools</a><span>›</span><span>{tool.category}</span><span>›</span><span aria-current="page">{tool.name}</span></nav>
     <div class="tool-heading"><div class="section-eyebrow">AETHEREXA TOOLKIT <span class="small-line"></span> {tool.category.toUpperCase()}</div><h1>{tool.name}<span class="heading-dot">.</span></h1><p>{tool.description}</p><div class="tool-flags"><span>◇ 100% private</span><span>✓ No sign-up</span><span>⚡ Instant results</span></div></div>
     <div class="tool-app">
       {isOrders && <OrdersTool client:load />}
@@ -34,6 +37,6 @@ const isPhoto = slug === 'exam-photo-resizer';
       <h2>Frequently asked questions</h2>
       <div class="tool-faqs">{guide.faqs.map(faq => <details><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div>
     </section>
-    <div class="back-tools"><a href="/#tools">← Browse other tools</a></div>
+    <div class="back-tools"><a href={catalogLink}>← Browse other tools</a></div>
   </div>
 </Base>

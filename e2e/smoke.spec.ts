@@ -61,3 +61,23 @@ test('keyboard users can skip navigation', async ({ page, isMobile }) => {
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
 });
+
+test('all pages display Aetherexa theme instead of bare unstyled HTML', async ({ page }) => {
+  const routes = ['/', '/privacy/', '/tools/whatsapp-order-to-csv/', '/tools/csv-date-format-fixer/', '/tools/daily-price-list-maker/', '/tools/exam-photo-resizer/', '/tools/signature-resize-10kb/'];
+  for (const route of routes) {
+    await page.goto(route);
+    const styles = await page.evaluate(() => {
+      const header = document.querySelector('.main-header');
+      return {
+        inlineCss: Array.from(document.querySelectorAll('head style')).some(style => style.textContent?.includes('--ax-bg:')),
+        background: getComputedStyle(document.body).backgroundImage,
+        headerHeight: header ? getComputedStyle(header).height : '',
+        font: getComputedStyle(document.body).fontFamily,
+      };
+    });
+    expect(styles.inlineCss, `Missing inlined stylesheet at ${route}`).toBe(true);
+    expect(styles.background).toContain('gradient');
+    expect(styles.font).toContain('Inter');
+    expect(parseFloat(styles.headerHeight)).toBeGreaterThan(55);
+  }
+});
